@@ -33,7 +33,7 @@ router.post('/createuser', [
         let rawUser = { name: req.body.name, email: req.body.email, password: secPswd }
         let user = await User.create(rawUser);
         const data = {
-            user: { id: user.id }
+            user: { id: user._id }
         }
         const authtoken = jwt.sign(data, jwt_secret);
         res.status(201).json({ authtoken })
@@ -65,7 +65,7 @@ router.post('/login', [
             return res.status(400).json({ "error": 'invalid credentials' });
         }
         const data = {
-            user: { id: user.id }
+            user: { id: user._id }
         }
         const authtoken = jwt.sign(data, jwt_secret);
         res.json({ authtoken })

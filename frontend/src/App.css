@@ -1,7 +1,10 @@
-.nav-link {
-  color: rgb(200 200 200 / 65%)!important;
+i{
+  cursor: pointer;
 }
 
-.active {
+.nav-link{
+  color: rgb(122, 122, 122)!important;
+}
+.active{
   color: white!important;
 }
