@@ -19,14 +19,15 @@ router.post('/createuser', [
     body("email", "Invalid email").isEmail({ min: 3 }),
     body("password", "Password must be atleast of 8 characters").isLength({ min: 8 })
 ], async (req, res) => {
+    let success = false;
     const error = validationResult(req);
     try {
         if (!error.isEmpty()) {
-            return res.status(400).json({ "error": error.array() });
+            return res.status(400).json({ success, "error": error.array() });
         }
         const isexist = await User.findOne({ email: req.body.email })
         if (isexist) {
-            return res.status(400).json({ "error": 'user already exist' });
+            return res.status(400).json({ success, "error": 'user already exist' });
         }
         const salt = await genSalt(10);
         const secPswd = await hash(req.body.password, salt);
@@ -36,10 +37,11 @@ router.post('/createuser', [
             user: { id: user._id }
         }
         const authtoken = jwt.sign(data, jwt_secret);
-        res.status(201).json({ authtoken })
+        success = true;
+        res.status(201).json({ success, authtoken })
     }
     catch (e) {
-        res.status(500).send("Internal server error")
+        res.status(500).json({ success, error: "Internal server error" })
     }
 })
 
@@ -50,40 +52,44 @@ router.post('/login', [
     body("email", "Invalid email").isEmail(),
     body("password", "Password not be empty").exists()
 ], async (req, res) => {
+    let success = false;
     const error = validationResult(req);
     try {
         if (!error.isEmpty()) {
-            return res.status(400).json({ "error": error.array() });
+            return res.status(400).json({ success, "error": error.array() });
         }
         const { email, password } = req.body;
         const user = await User.findOne({ email })
         if (!user) {
-            return res.status(400).json({ "error": 'invalid credentials' });
+            return res.status(400).json({ success, "error": 'invalid credentials' });
         }
         const pswdMatch = await compare(password, user.password);
         if (!pswdMatch) {
-            return res.status(400).json({ "error": 'invalid credentials' });
+            return res.status(400).json({ success, "error": 'invalid credentials' });
         }
         const data = {
             user: { id: user._id }
         }
         const authtoken = jwt.sign(data, jwt_secret);
-        res.json({ authtoken })
+        success = true;
+        res.json({ success, authtoken })
     } catch (e) {
-        res.status(500).send("Internal server error");
+        res.status(500).json({ success, error: "Internal server error" });
     }
 })
 
 // ROUTE - 3 : getuserdetail of authenticated user using POST - /api/auth/user
 
 router.post('/user', fetchuser, async (req, res) => {
+    let success = false;
     try {
         const userId = req.user.id;
         const data = await User.findById(userId).select('-password');
-        res.status(200).json(data);
+        success = true;
+        res.status(200).json({ success, data });
     }
     catch (e) {
-        res.status(500).send("Internal server error")
+        res.status(500).json({ success, error: "Internal server error" })
     }
 })
 
