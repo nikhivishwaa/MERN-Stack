@@ -16,6 +16,7 @@ router.get('/all', fetchuser, async (req, res) => {
     let success = false;
     try {
         const data = await Note.find({ user: req.user.id }).select("-user");
+        success = true;
         res.json({ success, message: "all your notes", note: data });
     }
     catch (e) {

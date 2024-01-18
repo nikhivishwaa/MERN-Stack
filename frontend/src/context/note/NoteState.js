@@ -30,7 +30,7 @@ const NoteState = (props) => {
             },
         });
         const noteInitial = await notelist.json();
-        setNotes(noteInitial);
+        if (noteInitial.success) { setNotes(noteInitial.note); }
     }
 
     const addNote = async (newNote) => {
@@ -43,7 +43,7 @@ const NoteState = (props) => {
             body: JSON.stringify(newNote)
         });
         const jsonData = await data.json();
-        setNotes(notes.concat(jsonData));
+        if (jsonData.success) { setNotes(notes.concat(jsonData.note)); }
     }
 
     const editNote = async (note = {}) => {
@@ -56,31 +56,35 @@ const NoteState = (props) => {
             body: JSON.stringify(note)
         });
         const jsonData = await data.json();
-        const updatedNotes = notes.map((n) => {
-            if (n._id === note._id) return jsonData.note;
-            return n;
-        });
-        setNotes(updatedNotes);
+        if (jsonData.success) {
+            const updatedNotes = notes.map((n) => {
+                if (n._id === note._id) return jsonData.note;
+                return n;
+            });
+            setNotes(updatedNotes);
+        }
     }
 
-const deleteNote = async (id) => {
-    const data = await fetch(`${host}/api/notes/remove/${id}/`, {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-            "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVhNDM1OTA1MWI3ODI3OWQ2MThlOTQ1In0sImlhdCI6MTcwNTI2MDQzMn0.UPAHX4NHCR9TFBVVYJlrUDxu4c9Jt5yOWHU-aPLOTV4"
-        },
-    });
-    const jsonData = await data.json();
-    const n = notes.filter((note) => note._id !== id)
-    setNotes(n);
-}
+    const deleteNote = async (id) => {
+        const data = await fetch(`${host}/api/notes/remove/${id}/`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVhNDM1OTA1MWI3ODI3OWQ2MThlOTQ1In0sImlhdCI6MTcwNTI2MDQzMn0.UPAHX4NHCR9TFBVVYJlrUDxu4c9Jt5yOWHU-aPLOTV4"
+            },
+        });
+        const jsonData = await data.json();
+        if (jsonData.success) {
+            const n = notes.filter((note) => note._id !== id)
+            setNotes(n);
+        }
+    }
 
-return (
-    <NoteContext.Provider value={{ notes, setNotes, fetchNotes, addNote, editNote, deleteNote }}>
-        {props.children}
-    </NoteContext.Provider>
-);
+    return (
+        <NoteContext.Provider value={{ notes, setNotes, fetchNotes, addNote, editNote, deleteNote }}>
+            {props.children}
+        </NoteContext.Provider>
+    );
 }
 
 export default NoteState;
