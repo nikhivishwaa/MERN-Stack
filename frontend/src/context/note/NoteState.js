@@ -15,8 +15,7 @@ import NoteContext from './NoteContext';
 //     );
 // }
 
-const host = 'http://localhost:4500';
-
+export const host = 'http://localhost:4500';
 
 const NoteState = (props) => {
     const [notes, setNotes] = useState([]);

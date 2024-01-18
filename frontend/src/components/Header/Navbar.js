@@ -2,11 +2,14 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 export default function Navbar() {
+  const logout = () => {
+    localStorage.clear();
+  }
   return (
     <nav className={`navbar navbar-expand-lg bg-dark text-white`}>
       <div className="container-fluid">
         <NavLink className="navbar-brand" to="/">
-          <img className="mx-2" src={process.env.PUBLIC_URL + "/inotebook.png"} alt="inotebook" width="35" height="35"/>
+          <img className="mx-2" src={process.env.PUBLIC_URL + "/inotebook.png"} alt="inotebook" width="35" height="35" />
         </NavLink>
         <NavLink className="navbar-brand active" to="/">iNotebook</NavLink>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
@@ -18,10 +21,14 @@ export default function Navbar() {
               <NavLink className="nav-link" to="/about">About</NavLink>
             </li>
           </ul>
-          <form className="d-flex" role="search">
-            <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-            <button className="btn btn-outline-success" type="submit">Search</button>
-          </form>
+          <div className="auth-panel">
+            <NavLink className="btn btn-primary mx-1" to="/signup" role="button">Sign Up</NavLink>
+            <NavLink className="btn btn-primary mx-1" to="/login" role="button">Login</NavLink>
+          </div>
+          <div className="user-panel">
+            <NavLink className="btn btn-primary mx-1" to="/signup" role="button">Sign Up</NavLink>
+            <button className="btn btn-primary mx-1" onClick={logout} role="button">Logout</button>
+          </div>
         </div>
       </div>
     </nav>
