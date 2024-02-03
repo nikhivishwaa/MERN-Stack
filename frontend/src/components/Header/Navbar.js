@@ -9,12 +9,6 @@ export default function Navbar() {
     localStorage.clear();
     setUser(null);
   };
-  useEffect(() => {
-    let x = null || localStorage.getItem("_token");
-    if (!x) {
-      navigate("/login");
-    }
-  }, []);
   return (
     <nav className={`navbar navbar-expand-lg bg-dark text-white`}>
       <div className="container-fluid">

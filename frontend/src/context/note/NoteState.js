@@ -19,7 +19,7 @@ export const host = "http://localhost:4500";
 const NoteState = (props) => {
   const [notes, setNotes] = useState([]);
   const [alert, setAlert] = useState(null);
-  const [user, setUser] = useState(null || localStorage.getItem("_token"));
+  const [user, setUser] = useState(localStorage.getItem("_token"));
 
   const fetchNotes = async () => {
     const notelist = await fetch(`${host}/api/notes/all/`, {
