@@ -37,7 +37,7 @@ export default function Navbar() {
               </NavLink>
             </li>
           </ul>
-          {user ? (
+          {!user ? (
             <div className="auth-panel">
               <NavLink
                 className="btn btn-primary mx-1"
