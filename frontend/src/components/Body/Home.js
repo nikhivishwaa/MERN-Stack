@@ -15,7 +15,6 @@ export default function TextForm() {
         <>
             <AddNote />
             <Notes />
-
         </>
     );
 }

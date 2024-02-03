@@ -19,13 +19,15 @@ export const host = 'http://localhost:4500';
 
 const NoteState = (props) => {
     const [notes, setNotes] = useState([]);
+    const [alert, setAlert] = useState(null);
+    const [user, setUser] = useState(null || localStorage.getItem("_token"));
 
     const fetchNotes = async () => {
         const notelist = await fetch(`${host}/api/notes/all/`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVhNDM1OTA1MWI3ODI3OWQ2MThlOTQ1In0sImlhdCI6MTcwNTI2MDQzMn0.UPAHX4NHCR9TFBVVYJlrUDxu4c9Jt5yOWHU-aPLOTV4"
+                "auth-token": localStorage.getItem("_token")
             },
         });
         const noteInitial = await notelist.json();
@@ -37,7 +39,7 @@ const NoteState = (props) => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVhNDM1OTA1MWI3ODI3OWQ2MThlOTQ1In0sImlhdCI6MTcwNTI2MDQzMn0.UPAHX4NHCR9TFBVVYJlrUDxu4c9Jt5yOWHU-aPLOTV4"
+                "auth-token": localStorage.getItem("_token")
             },
             body: JSON.stringify(newNote)
         });
@@ -50,7 +52,7 @@ const NoteState = (props) => {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
-                "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVhNDM1OTA1MWI3ODI3OWQ2MThlOTQ1In0sImlhdCI6MTcwNTI2MDQzMn0.UPAHX4NHCR9TFBVVYJlrUDxu4c9Jt5yOWHU-aPLOTV4"
+                "auth-token": localStorage.getItem("_token")
             },
             body: JSON.stringify(note)
         });
@@ -69,7 +71,7 @@ const NoteState = (props) => {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
-                "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVhNDM1OTA1MWI3ODI3OWQ2MThlOTQ1In0sImlhdCI6MTcwNTI2MDQzMn0.UPAHX4NHCR9TFBVVYJlrUDxu4c9Jt5yOWHU-aPLOTV4"
+                "auth-token": localStorage.getItem("_token")
             },
         });
         const jsonData = await data.json();
@@ -79,8 +81,14 @@ const NoteState = (props) => {
         }
     }
 
+    const newAlert = (t = "success", msg = "good to go") => {
+        setAlert({ level: t, message: msg })
+        console.log("alert: ", t, " : ", msg);
+        setTimeout(() => setAlert(null), 2000)
+    }
+
     return (
-        <NoteContext.Provider value={{ notes, setNotes, fetchNotes, addNote, editNote, deleteNote }}>
+        <NoteContext.Provider value={{ notes, setNotes, fetchNotes, addNote, editNote, deleteNote, newAlert, alert }}>
             {props.children}
         </NoteContext.Provider>
     );

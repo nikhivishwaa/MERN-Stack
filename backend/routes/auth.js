@@ -23,6 +23,7 @@ router.post('/createuser', [
     const error = validationResult(req);
     try {
         if (!error.isEmpty()) {
+            console.log(req.body)
             return res.status(400).json({ success, "error": error.array() });
         }
         const isexist = await User.findOne({ email: req.body.email })

@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 
 export default function Navbar() {
   const logout = () => {
     localStorage.clear();
   }
+  useEffect(()=>{
+    console.log("nav")
+  },[])
   return (
     <nav className={`navbar navbar-expand-lg bg-dark text-white`}>
       <div className="container-fluid">

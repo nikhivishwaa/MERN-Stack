@@ -1,9 +1,13 @@
-import React, { useState, useRef } from 'react';
-import { NavLink } from 'react-router-dom'
-import { host } from '../../context/note/NoteState';
+import React, { useState, useRef, useContext } from 'react';
+import { useNavigate } from 'react-router-dom'
+import NoteContext from "../../context/note/NoteContext";
+import { host } from '../../context/note/NoteState'
 
 export default function Login() {
+  const context = useContext(NoteContext)
+  const { newAlert } = context;
   const ref = useRef(null);
+  const navigate = useNavigate();
   const [user, setUser] = useState({ email: "", password: "" });
   const onchange = (event) => {
     setUser({ ...user, [event.target.name]: event.target.value });
@@ -20,7 +24,8 @@ export default function Login() {
     const jsonData = await data.json();
     if (jsonData.success) {
       localStorage.setItem('_token', jsonData.authtoken);
-      ref.current.click();
+      newAlert("success", `welcome back to iNoteBook`)
+      navigate("/");
     }
   }
 
@@ -38,7 +43,6 @@ export default function Login() {
             id="Password" required />
         </div>
         <button type="submit" class="btn btn-primary" disabled={user.email.length < 7 || user.password.length < 8}>Login</button>
-        <NavLink ref={ref} className="d-none" to="/"></NavLink>
       </form>
     </>
   )
