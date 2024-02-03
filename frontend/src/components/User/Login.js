@@ -5,12 +5,12 @@ import { host } from '../../context/note/NoteState'
 
 export default function Login() {
   const context = useContext(NoteContext)
-  const { newAlert } = context;
+  const { newAlert, setUser } = context;
   const ref = useRef(null);
   const navigate = useNavigate();
-  const [user, setUser] = useState({ email: "", password: "" });
+  const [user, setLoginUser] = useState({ email: "", password: "" });
   const onchange = (event) => {
-    setUser({ ...user, [event.target.name]: event.target.value });
+    setLoginUser({ ...user, [event.target.name]: event.target.value });
   }
   const loginUser = async (event) => {
     event.preventDefault();
@@ -25,6 +25,7 @@ export default function Login() {
     if (jsonData.success) {
       localStorage.setItem('_token', jsonData.authtoken);
       newAlert("success", `welcome back to iNoteBook`)
+      setUser(jsonData.authtoken)
       navigate("/");
     }
   }

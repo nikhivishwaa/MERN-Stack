@@ -7,17 +7,20 @@ export default function Alert() {
   const { alert } = context;
   return (
     <>
-      {alert && (
+      {alert ? (
         <div
           className={`alert alert-${alert.level} alert-dismissible py-2 fade ${
             alert.level ? "show" : "hide"
           }`}
           role="alert"
+          style={{ height: "40px" }}
         >
           <strong>{caps(alert.level)} : </strong>{" "}
           {alert.message ? caps(alert.message) : null}
         </div>
-      )}
+      ) : (
+        <div className="py-2" style={{ height: "40px" }}></div>
+      )}{" "}
     </>
   );
 }

@@ -6,15 +6,15 @@ import caps from "../modifiers/caps";
 
 export default function Signup() {
   const context = useContext(NoteContext);
-  const { newAlert } = context;
-  const [user, setUser] = useState({
+  const { newAlert, setUser } = context;
+  const [user, setSignupUser] = useState({
     name: "",
     email: "",
     password: "",
     cpassword: "",
   });
   const onchange = (event) => {
-    setUser({ ...user, [event.target.name]: event.target.value });
+    setSignupUser({ ...user, [event.target.name]: event.target.value });
   };
 
   const navigate = useNavigate();
@@ -33,6 +33,7 @@ export default function Signup() {
     console.log(res);
     if (res.success) {
       localStorage.setItem("_token", res.authtoken);
+      setUser(res.authtoken);
       newAlert(
         "success",
         `welcome ${data.name.split(" ").map(caps)} in iNoteBook`
