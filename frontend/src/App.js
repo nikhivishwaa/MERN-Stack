@@ -8,37 +8,32 @@ import NoteState from "./context/note/NoteState";
 import Login from "./components/User/Login";
 import Signup from "./components/User/Signup";
 import Profile from "./components/User/Profile";
-import Alert from './components/Header/Alert'
-
+import Alert from "./components/Header/Alert";
 
 function App() {
   return (
-    <><NoteState>
-      <BrowserRouter>
-        <Navbar />
-        <Alert/>
-        <div className="container my-4">
-          <Routes>
-            <Route
-              exact path="/"
-              element={
-                <Home />
-              }
-            ></Route>
-            <Route exact path="/about" element={<About />}></Route>
-          </Routes>
-          <Routes>
-            <Route exact path="/login" element={<Login />}></Route>
-          </Routes>
-          <Routes>
-            <Route exact path="/signup" element={<Signup />}></Route>
-          </Routes>
-          <Routes>
-            <Route exact path="/profile" element={<Profile />}></Route>
-          </Routes>
-        </div>
-      </BrowserRouter>
-    </NoteState>
+    <>
+      <NoteState>
+        <BrowserRouter>
+          <Navbar />
+          <Alert />
+          <div className="container my-4">
+            <Routes>
+              <Route exact path="/" element={<Home />}></Route>
+              <Route exact path="/about" element={<About />}></Route>
+            </Routes>
+            <Routes>
+              <Route exact path="/login" element={<Login />}></Route>
+            </Routes>
+            <Routes>
+              <Route exact path="/signup" element={<Signup />}></Route>
+            </Routes>
+            <Routes>
+              <Route exact path="/profile" element={<Profile />}></Route>
+            </Routes>
+          </div>
+        </BrowserRouter>
+      </NoteState>
     </>
   );
 }

@@ -8,6 +8,7 @@ export default function Navbar() {
   const logout = () => {
     localStorage.clear();
     setUser(null);
+    navigate("/login")
   };
   return (
     <nav className={`navbar navbar-expand-lg bg-dark text-white`}>

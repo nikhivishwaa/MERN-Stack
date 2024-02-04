@@ -1,10 +1,15 @@
-import React from "react";
-import Auth from "../User/Auth";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function About() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    let x = localStorage.getItem("_token");
+    if (!x) navigate("/login");
+  }, []);
+
   return (
     <>
-      <Auth />
       <div className="accordion" id="accordionExample">
         <div className="accordion-item">
           <h2 className="accordion-header">

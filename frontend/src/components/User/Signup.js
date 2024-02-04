@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { host } from "../../context/note/NoteState";
 import NoteContext from "../../context/note/NoteContext";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +18,12 @@ export default function Signup() {
   };
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    let x = localStorage.getItem("_token");
+    if (x) navigate("/");
+  }, []);
+
   const handleSignup = async (e) => {
     e.preventDefault();
     let { cpassword, ...data } = user;
