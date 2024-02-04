@@ -3,12 +3,16 @@ import Notes from "./Notes";
 import NoteContext from "../../context/note/NoteContext";
 import AddNote from "./AddNote";
 import Auth from "../User/Auth";
+import { useNavigate } from "react-router-dom";
 
 export default function TextForm() {
   const context = useContext(NoteContext);
-  const { fetchNotes, user } = context;
+  const { fetchNotes } = context;
+  const navigate = useNavigate();
   useEffect(() => {
-    if (user) fetchNotes();
+    let x = localStorage.getItem("_token");
+    if (!x) navigate("/login");
+    else fetchNotes();
   }, []);
 
   return (

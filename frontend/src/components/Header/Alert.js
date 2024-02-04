@@ -13,13 +13,16 @@ export default function Alert() {
             alert.level ? "show" : "hide"
           }`}
           role="alert"
-          style={{ height: "40px" }}
+          style={{ height: "40px", marginTop: "60px" }}
         >
           <strong>{caps(alert.level)} : </strong>{" "}
           {alert.message ? caps(alert.message) : null}
         </div>
       ) : (
-        <div className="py-2" style={{ height: "40px" }}></div>
+        <div
+          className="py-2"
+          style={{ height: "40px", marginTop: "60px" }}
+        ></div>
       )}{" "}
     </>
   );

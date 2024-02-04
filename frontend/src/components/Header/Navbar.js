@@ -11,7 +11,7 @@ export default function Navbar() {
     navigate("/login")
   };
   return (
-    <nav className={`navbar navbar-expand-lg bg-dark text-white`}>
+    <nav className={`navbar navbar-expand-lg bg-dark text-white fixed-top`}>
       <div className="container-fluid">
         <NavLink className="navbar-brand" to="/">
           <img
